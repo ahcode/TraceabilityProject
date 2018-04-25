@@ -2,19 +2,11 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.views.generic import View, ListView
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Public_key, Transaction, T_item, Product
 from core.utils import validateTransaction
 import json
-from datetime import datetime
-import time
-
-class Index(View):
-	template_name = 'index.html'
-	def get(self, request):
-		return render(request, self.template_name)
 
 @csrf_exempt
 def new_transaction(request):
@@ -75,24 +67,3 @@ def get_available_inputs(request):
 		return JsonResponse(json_i_list, safe=False)
 	except:
 		return HttpResponse("ERROR")
-
-
-
-
-def test1(request):
-	return HttpResponse(getQuantityProductsPerKey())
-def getQuantityProductsPerKey():
-	outputs = T_item.objects.filter(input_transaction = None)
-	dic = {}
-	for o in outputs:
-		if o.receiver.name not in dic:
-			dic[o.receiver.name] = {}
-		if o.product.name not in dic[o.receiver.name]:
-			dic[o.receiver.name][o.product.name] = 0
-		dic[o.receiver.name][o.product.name] += o.quantity
-	text = ""
-	for key, pdic in dic.iteritems():
-		text = text + "---" + key + "---</br>"
-		for product, quantity in pdic.iteritems():
-			text = text + product + " = " + str(quantity) + "</br>"
-	return text
