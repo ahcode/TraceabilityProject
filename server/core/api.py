@@ -7,9 +7,6 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Public_key, Transaction, T_item, Product
 from core.utils import validateTransaction
-from Crypto.Hash import SHA256
-from Crypto.Signature import PKCS1_v1_5
-from Crypto.PublicKey import RSA
 import json
 from datetime import datetime
 import time
