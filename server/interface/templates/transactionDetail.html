@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<ul>
+    <li><b>Hash:</b> {{ t.t_hash }}</li>
+    <li><b>Fecha/hora:</b> {{ t.client_timestamp }}</li>
+    <li><b>Emisor:</b> {{ t.transmitter }}</li>
+    {% if t.origin != NULL %}
+    <li><b>Origen:</b> {{ t.origin }}</li>
+    {% elif t.destination != NULL %}
+    <li><b>Destino:</b> {{ t.destination }}</li>
+    {% endif %}
+</ul>
+{% endblock %}

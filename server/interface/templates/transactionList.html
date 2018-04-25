@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Transacciones</h1>
+    <table class = "table">
+        {% for t in transaction_list %}
+            <tr>
+                <td>{{ t.client_timestamp }}</td>
+                <td>{{ t.t_hash }}</td>
+                <td>{{ t.transmitter.name }}</td>
+                <td><a href="{{ request.path }}{{ t.t_hash }}" class="btn btn-default">Detalles</a></td>
+            </tr>
+        {% empty %}
+            <tr>Aún no hay transacciones.</tr>
+        {% endfor %}
+    </table>
+{% endblock %}

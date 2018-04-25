@@ -2,12 +2,24 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.http import HttpResponse
-from core.models import T_item
+from core.models import Transaction, T_item
 
 class Index(TemplateView):
 	template_name = 'index.html'
+
+class TransactionList(ListView):
+	model = Transaction
+	template_name = 'transactionList.html'
+	queryset = Transaction.objects.all().order_by('-client_timestamp')
+	context_object_name = 'transaction_list'
+
+class TransactionDetail(DetailView):
+	model = Transaction
+	template_name = 'transactionDetail.html'
+	context_object_name = 't'
+	slug_field = 't_hash'
 
 #ESTO ES SOLO UNA PRUEBA
 def test1(request):
