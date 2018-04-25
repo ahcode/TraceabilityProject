@@ -9,5 +9,25 @@
     {% elif t.destination != NULL %}
     <li><b>Destino:</b> {{ t.destination }}</li>
     {% endif %}
+    <li><b>Inputs:</b>
+        <ul>
+            {% for i in inputs %}
+            <li>{{ i.product.name }} - {{ i.quantity }} - {{ i.output_transaction.transmitter.name }} - <a href="/transactions/{{ i.output_transaction.t_hash }}">{{ i.output_transaction.t_hash }}</a></li>
+            {% empty %}
+            <li>No hay inputs</li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li><b>Outputs:</b>
+        <ul>
+            {% for o in outputs %}
+            <li>{{ o.product.name }} - {{ o.quantity }} - {{ o.receiver.name }} - 
+            {% if o.input_transaction %}<a href="/transactions/{{ o.input_transaction.t_hash }}">{{ o.input_transaction.t_hash }}</a>{% else %}No usada{% endif %}
+            </li>
+            {% empty %}
+            <li>No hay outputs</li>
+            {% endfor %}
+        </ul>
+    </li>
 </ul>
 {% endblock %}

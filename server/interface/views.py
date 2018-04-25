@@ -21,6 +21,12 @@ class TransactionDetail(DetailView):
 	context_object_name = 't'
 	slug_field = 't_hash'
 
+	def get_context_data(self, **kwargs):
+		context = super(TransactionDetail, self).get_context_data(**kwargs)
+		context['inputs'] = T_item.objects.filter(input_transaction = context['t']).order_by('input_index')
+		context['outputs'] = T_item.objects.filter(output_transaction = context['t']).order_by('output_index')
+		return context
+
 #ESTO ES SOLO UNA PRUEBA
 def test1(request):
 	return HttpResponse(getQuantityProductsPerKey())
