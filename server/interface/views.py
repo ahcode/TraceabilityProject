@@ -27,6 +27,9 @@ class TransactionDetail(DetailView):
 		context['outputs'] = T_item.objects.filter(output_transaction = context['t']).order_by('output_index')
 		return context
 
+class TransactionsGraph(TemplateView):
+	template_name = 'graph.html'
+
 #ESTO ES SOLO UNA PRUEBA
 def test1(request):
 	return HttpResponse(getQuantityProductsPerKey())
