@@ -10,28 +10,28 @@
 var Data = {
     "stage":"etapa1",
     "origin":"orig",
-    "hash":"xxxx",
+    "hash":"sidflaksdjf",
     "children":[
       {
           "stage":"etapa2",
-          "hash":"xxxx",
+          "hash":"hjabsdkjhgasdkjfgaksdj",
           "children":[
             {
                 "stage":"etapa3",
                 "destination":"dest1",
-                "hash":"xxxx"
+                "hash":"asbdkfhaskdifjhl"
             },
             {
                 "stage":"etapa4",
                 "destination":"dest2",
-                "hash":"xxxx"
+                "hash":"asdkfhbaskdjhbfakjshdgf"
             }
           ]
       },
       {
           "stage":"etapa5",
           "destination":"des1",
-          "hash":"xxxx"
+          "hash":"asdbkfuhabsdfhjbaol"
       }
     ]
   };
@@ -99,7 +99,9 @@ node.append("text")
   .attr("dy", "0.7em")
   .attr("y", 13)
   .style("text-anchor", "middle")
-  .text(function(d) { return d.data.hash; });
+  .append("a")
+  .attr("xlink:href", function(d) { return "/transactions/" + d.data.hash; })
+  .text(function(d) { return d.data.hash.substring(0,6); });
 
 node.append("text")
   .attr("dy", "0.35em")
