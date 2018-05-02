@@ -8,6 +8,7 @@
                 <td>{{ t.t_hash }}</td>
                 <td>{{ t.transmitter.name }}</td>
                 <td><a href="/transactions/{{ t.t_hash }}" class="btn btn-default">Detalles</a></td>
+                <td><a href="/graph/{{ t.t_hash }}" class="btn btn-default">Gráfico</a></td>
             </tr>
         {% empty %}
             <tr>Aún no hay transacciones.</tr>

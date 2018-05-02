@@ -7,34 +7,36 @@
 {% block content %}
 <script>
 
-var Data = {
-    "stage":"etapa1",
-    "origin":"orig",
-    "hash":"sidflaksdjf",
-    "children":[
-      {
-          "stage":"etapa2",
-          "hash":"hjabsdkjhgasdkjfgaksdj",
-          "children":[
-            {
-                "stage":"etapa3",
-                "destination":"dest1",
-                "hash":"asbdkfhaskdifjhl"
-            },
-            {
-                "stage":"etapa4",
-                "destination":"dest2",
-                "hash":"asdkfhbaskdjhbfakjshdgf"
-            }
-          ]
-      },
-      {
-          "stage":"etapa5",
-          "destination":"des1",
-          "hash":"asdbkfuhabsdfhjbaol"
-      }
-    ]
-  };
+// var Data = {
+//     "stage":"etapa1",
+//     "origin":"orig",
+//     "hash":"sidflaksdjf",
+//     "children":[
+//       {
+//           "stage":"etapa2",
+//           "hash":"hjabsdkjhgasdkjfgaksdj",
+//           "children":[
+//             {
+//                 "stage":"etapa3",
+//                 "destination":"dest1",
+//                 "hash":"asbdkfhaskdifjhl"
+//             },
+//             {
+//                 "stage":"etapa4",
+//                 "destination":"dest2",
+//                 "hash":"asdkfhbaskdjhbfakjshdgf"
+//             }
+//           ]
+//       },
+//       {
+//           "stage":"etapa5",
+//           "destination":"des1",
+//           "hash":"asdbkfuhabsdfhjbaol"
+//       }
+//     ]
+//   };
+
+var Data = {{ dataTree | safe }}
 
 // set the dimensions and margins of the diagram
 var margin = {top: 20, right: 90, bottom: 30, left: 90},

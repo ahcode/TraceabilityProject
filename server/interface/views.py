@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView
 from django.http import HttpResponse
 from core.models import Transaction, T_item
+from utils import getDataTree
+import json
 
 class Index(TemplateView):
 	template_name = 'index.html'
@@ -29,6 +31,12 @@ class TransactionDetail(DetailView):
 
 class TransactionsGraph(TemplateView):
 	template_name = 'graph.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(TransactionsGraph, self).get_context_data(**kwargs)
+		dataTree = getDataTree(self.kwargs["tid"])
+		context["dataTree"] = json.dumps(dataTree)
+		return context
 
 #ESTO ES SOLO UNA PRUEBA
 def test1(request):
