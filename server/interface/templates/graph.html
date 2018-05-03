@@ -7,35 +7,6 @@
 {% block content %}
 <script>
 
-// var Data = {
-//     "stage":"etapa1",
-//     "origin":"orig",
-//     "hash":"sidflaksdjf",
-//     "children":[
-//       {
-//           "stage":"etapa2",
-//           "hash":"hjabsdkjhgasdkjfgaksdj",
-//           "children":[
-//             {
-//                 "stage":"etapa3",
-//                 "destination":"dest1",
-//                 "hash":"asbdkfhaskdifjhl"
-//             },
-//             {
-//                 "stage":"etapa4",
-//                 "destination":"dest2",
-//                 "hash":"asdkfhbaskdjhbfakjshdgf"
-//             }
-//           ]
-//       },
-//       {
-//           "stage":"etapa5",
-//           "destination":"des1",
-//           "hash":"asdbkfuhabsdfhjbaol"
-//       }
-//     ]
-//   };
-
 var Data = {{ dataTree | safe }}
 
 // set the dimensions and margins of the diagram
@@ -71,10 +42,10 @@ var link = g.selectAll(".link")
   .enter().append("path")
     .attr("class", "link")
     .attr("d", function(d) {
-       return "M" + d.y + "," + d.x
-         + "C" + (d.y + d.parent.y) / 2 + "," + d.x
-         + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
-         + " " + d.parent.y + "," + d.parent.x;
+       return "M" + (width - d.y) + "," + d.x
+         + "C" + (width - (d.y + d.parent.y) / 2) + "," + d.x
+         + " " + (width - (d.y + d.parent.y) / 2) + "," + d.parent.x
+         + " " + (width - d.parent.y) + "," + d.parent.x;
        });
 
 // adds each node as a group
@@ -85,7 +56,7 @@ var node = g.selectAll(".node")
       return "node" + 
         (d.children ? " node--internal" : " node--leaf"); })
     .attr("transform", function(d) { 
-      return "translate(" + d.y + "," + d.x + ")"; });
+      return "translate(" + (width - d.y) + "," + d.x + ")"; });
 
 // adds the circle to the node
 node.append("circle")
