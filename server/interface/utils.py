@@ -5,11 +5,11 @@ from core.models import Transaction, T_item
 
 def getDataTree(t_hash):
     t = Transaction.objects.get(t_hash = t_hash)
-    past = {}
-    createPreNode(t, past)
+    pre = {}
+    createPreNode(t, pre)
     post = {}
     createPostNode(t, post)
-    return (past, post)
+    return (pre, post)
 
 def createPreNode(transaction, dict_item):
     dict_item["stage"] = transaction.transmitter.name
