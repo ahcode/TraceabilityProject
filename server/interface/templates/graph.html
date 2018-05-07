@@ -7,9 +7,9 @@
 {% block content %}
 <script>
 
-var Data = {{ dataTree | safe }}; //TRANSACCIONES ANTECEDENTES
+var Data = {{ dataTreePre | safe }}; //TRANSACCIONES ANTECEDENTES
 
-var Data2 = Data; //TRANSACCIONES DESCENDENTES (falta)
+var Data2 = {{ dataTreePost | safe }};  //TRANSACCIONES DESCENDENTES (falta)
 
 // set the dimensions and margins of the diagram
 var margin = {top: 20, right: 90, bottom: 30, left: 90},
@@ -28,13 +28,13 @@ var nodes = d3.hierarchy(Data, function(d) {
     return d.children;
   });
 
-var nodes2 = d3.hierarchy(Data, function(d) {
+var nodes2 = d3.hierarchy(Data2, function(d) {
     return d.children;
   });
 
 // maps the node data to the tree layout
 nodes = treemap(nodes);
-nodes2 = treemap(nodes2);
+nodes2 = treemap2(nodes2);
 
 // append the svg object to the body of the page
 // appends a 'group' element to 'svg'

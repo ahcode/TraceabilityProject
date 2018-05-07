@@ -34,8 +34,9 @@ class TransactionsGraph(TemplateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(TransactionsGraph, self).get_context_data(**kwargs)
-		dataTree = getDataTree(self.kwargs["tid"])
-		context["dataTree"] = json.dumps(dataTree)
+		(pre, post) = getDataTree(self.kwargs["tid"])
+		context["dataTreePre"] = json.dumps(pre)
+		context["dataTreePost"] = json.dumps(post)
 		return context
 
 #ESTO ES SOLO UNA PRUEBA

@@ -5,11 +5,13 @@ from core.models import Transaction, T_item
 
 def getDataTree(t_hash):
     t = Transaction.objects.get(t_hash = t_hash)
-    dataTree = {}
-    createNode(t, dataTree)
-    return dataTree
+    past = {}
+    createPreNode(t, past)
+    post = {}
+    createPostNode(t, post)
+    return (past, post)
 
-def createNode(transaction, dict_item):
+def createPreNode(transaction, dict_item):
     dict_item["stage"] = transaction.transmitter.name
     dict_item["hash"] = transaction.t_hash
     t_inputs = T_item.objects.filter(input_transaction = transaction)
@@ -17,6 +19,18 @@ def createNode(transaction, dict_item):
         dict_item["children"] = []
         for i in t_inputs.iterator():
             dict_item["children"].append({})
-            createNode(i.output_transaction, dict_item["children"][-1])
+            createPreNode(i.output_transaction, dict_item["children"][-1])
     else:
         dict_item["origin"] = transaction.origin
+
+def createPostNode(transaction, dict_item):
+    dict_item["stage"] = transaction.transmitter.name
+    dict_item["hash"] = transaction.t_hash
+    t_outputs = T_item.objects.filter(output_transaction = transaction, )
+    if t_outputs:
+        dict_item["children"] = []
+        for i in t_outputs.iterator():
+            dict_item["children"].append({})
+            createPostNode(i.input_transaction, dict_item["children"][-1])
+    else:
+        dict_item["destination"] = transaction.destination
