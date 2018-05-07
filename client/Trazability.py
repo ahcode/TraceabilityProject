@@ -163,6 +163,13 @@ class Connection:
         t_hash = self.__newtransaction(inputs, outputs, kwargs)
         if left > 0:
             self.inputs_queue[str(product)].insert(0, (t_hash, 1, product, left))
+
+    def send_all(self, receiver, product, *args, **kwargs):
+        self.__getinputslist(product)
+        total = 0
+        for i in self.inputs_queue[product]:
+            total += i[2]
+        self.send(receiver, product, total, *args, **kwargs)
     
     def change_type(self, product_in, quantity_in, product_out, quantity_out, *args, **kwargs):
         if 'batch_id' in kwargs: bid = kwargs['batch_id']
