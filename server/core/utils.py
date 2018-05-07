@@ -130,6 +130,13 @@ def validateInputsOutputs(inputs, outputs, additional, pk):
     if len(outputs_dbobjects_list) != 0 and len(inputs_dbobjects_list) != 0:
         same_type = all(inputs_dbobjects_list[0].product == item.product for item in inputs_dbobjects_list + outputs_dbobjects_list)
     
+    #Transacción asignando identificador
+    if 'batchid' in additional:
+        if len(outputs_dbobjects_list) < 1 or len(outputs_dbobjects_list) > 2:
+            raise Exception("Identifier have to be created with 1 or 2 outputs")
+        else:
+            outputs_dbobjects_list[0].batch_id = additional['batchid']
+    
     #Transacción sin inputs ni outputs
     if len(inputs_dbobjects_list) == 0 and len(outputs_dbobjects_list) == 0:
         raise Exception("Transactions without inputs or outputs are forbidden.")
