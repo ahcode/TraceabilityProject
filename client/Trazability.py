@@ -171,20 +171,23 @@ class Connection:
             total += i[2]
         self.send(receiver, product, total, *args, **kwargs)
     
-    def change_type(self, product_in, quantity_in, product_out, quantity_out, *args, **kwargs):
+    def change_type(self, input_list, product_out, quantity_out, *args, **kwargs):
         if 'batch_id' in kwargs: bid = kwargs['batch_id']
         else: bid = None
-        input_data = self.__getinput(product_in, bid)
-        inputs = [(input_data[0], input_data[1])]
+        inputs = []
         outputs = [(self.getkeyhash(), product_out, quantity_out)]
-        left = input_data[3] - quantity_in
+        for i in input_list:
+            input_data = self.__getinput(i[0], bid)
+            inputs.append([(input_data[0], input_data[1])])
+            left = input_data[3] - i[1]
 
-        if left > 0:
-            outputs.append((self.getkeyhash(), product_in, left))
-        elif left < 0:
-            raise Exception("Error with transaction quantity")
+            if left > 0:
+                outputs.append((self.getkeyhash(), i[0], left))
+            elif left < 0:
+                raise Exception("Error with transaction quantity")
 
         t_hash = self.__newtransaction(inputs, outputs, kwargs)
-        if left > 0:
-            self.inputs_queue[str(product_in)].insert(0, (t_hash, 1, product_in, left))
+        if len(outputs) > 1:
+            for i in range(1,len(outputs)):
+                self.inputs_queue[str(outputs[i][1])].insert(0, (t_hash, i, outputs[i][1], outputs[i][2]))
         return
