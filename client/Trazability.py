@@ -122,6 +122,12 @@ class Connection:
                 raise Exception("Arbitrary mode must specific 'batch_id'")
             #FALTA buscar ese batch id en inputs_queue y devolverlo
 
+    def __getactualquantity(self, product):
+        self.__getinputslist(product)
+        total = 0
+        for i in self.inputs_queue[product]:
+            total += i[2]
+
     def generate(self, product, quantity, *args, **kwargs):
         if 'origin' not in kwargs:
             raise Exception("Origin is needed in generating transactions.")
@@ -165,10 +171,7 @@ class Connection:
             self.inputs_queue[str(product)].insert(0, (t_hash, 1, product, left))
 
     def send_all(self, receiver, product, *args, **kwargs):
-        self.__getinputslist(product)
-        total = 0
-        for i in self.inputs_queue[product]:
-            total += i[2]
+        total = self.__getactualquantity(product)
         self.send(receiver, product, total, *args, **kwargs)
     
     def change_type(self, input_list, product_out, quantity_out, *args, **kwargs):
@@ -190,4 +193,9 @@ class Connection:
         if len(outputs) > 1:
             for i in range(1,len(outputs)):
                 self.inputs_queue[str(outputs[i][1])].insert(0, (t_hash, i, outputs[i][1], outputs[i][2]))
-        return
+
+    def change_type_all(self, input_list, product_out, quantity_out, *args, **kwargs):
+        input_list_modified = []
+        for p in input_list:
+            input_list_modified.append((p, self.__getactualquantity(p)))
+        self.change_type(input_list_modified, product_out, quantity_out, *args, **kwargs)
