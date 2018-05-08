@@ -126,7 +126,8 @@ class Connection:
         self.__getinputslist(product)
         total = 0
         for i in self.inputs_queue[product]:
-            total += i[2]
+            total += i[3]
+        return total
 
     def generate(self, product, quantity, *args, **kwargs):
         if 'origin' not in kwargs:
@@ -181,7 +182,7 @@ class Connection:
         outputs = [(self.getkeyhash(), product_out, quantity_out)]
         for i in input_list:
             input_data = self.__getinput(i[0], bid)
-            inputs.append([(input_data[0], input_data[1])])
+            inputs.append((input_data[0], input_data[1]))
             left = input_data[3] - i[1]
 
             if left > 0:

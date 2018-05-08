@@ -27,7 +27,7 @@ msg = [
 
 msg = json.dumps(msg)
 
-req = urllib2.Request('http://127.0.0.1:8000/core/new_key/')
+req = urllib2.Request('http://127.0.0.1:8000/api/new_key/')
 req.add_header('Content-Type', 'application/json')
 
 try:

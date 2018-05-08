@@ -26,11 +26,14 @@ def createPreNode(transaction, dict_item):
 def createPostNode(transaction, dict_item):
     dict_item["stage"] = transaction.transmitter.name
     dict_item["hash"] = transaction.t_hash
-    t_outputs = T_item.objects.filter(output_transaction = transaction, )
+    t_outputs = T_item.objects.filter(output_transaction = transaction)
     if t_outputs:
         dict_item["children"] = []
         for i in t_outputs.iterator():
-            dict_item["children"].append({})
-            createPostNode(i.input_transaction, dict_item["children"][-1])
+            if i.input_transaction:
+                dict_item["children"].append({})
+                createPostNode(i.input_transaction, dict_item["children"][-1])
+        if len(dict_item["children"]) == 0:
+            dict_item.pop("children", None)
     else:
         dict_item["destination"] = transaction.destination
